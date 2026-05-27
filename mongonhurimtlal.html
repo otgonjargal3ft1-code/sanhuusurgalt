@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <title>Хуримтлалын Ид Шид Тооцоолуур</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --accent-color: #ffd700;
+        }
+        body { font-family: 'Arial', sans-serif; background-color: #f0f4f1; padding: 20px; }
+        .calc-card {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-top: 10px solid var(--primary-color);
+        }
+        h2 { color: var(--primary-color); text-align: center; }
+        .input-group { margin: 20px 0; text-align: left; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        input[type="range"] { width: 100%; cursor: pointer; accent-color: var(--primary-color); }
+        input[type="number"] { 
+            width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 18px; 
+        }
+        .result-box {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 25px;
+            border: 2px dashed var(--primary-color);
+        }
+        .total-amount { font-size: 32px; font-weight: bold; color: var(--primary-color); }
+        .reward-icon { font-size: 50px; margin-top: 15px; }
+        .goal-text { font-style: italic; color: #666; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="calc-card">
+    <h2>💰 Хуримтлалын Ид Шид</h2>
+    <p style="text-align: center; color: #777;">Сар бүр бага багаар хэмнэвэл жилийн дараа юу авч чадах вэ?</p>
+
+    <div class="input-group">
+        <label>Сар бүр хадгалах мөнгө (₮):</label>
+        <input type="number" id="monthlyInput" value="50000" oninput="calculateSavings()">
+        <input type="range" id="monthlySlider" min="5000" max="1000000" step="5000" value="50000" oninput="syncInputs('slider')">
+    </div>
+
+    <div class="result-box">
+        <div>1 жилийн дараах нийт дүн:</div>
+        <div class="total-amount"><span id="yearlyResult">600,000</span>₮</div>
+        
+        <div class="reward-icon" id="rewardIcon">🚲</div>
+        <div class="goal-text" id="goalText">Та шинэ унадаг дугуй авах боломжтой боллоо!</div>
+    </div>
+    
+    <p style="font-size: 12px; margin-top: 15px; color: #999;">* Энэхүү тооцоололд банкны хүүг оруулаагүй болно.</p>
+</div>
+
+<script>
+    function syncInputs(source) {
+        const slider = document.getElementById('monthlySlider');
+        const input = document.getElementById('monthlyInput');
+        
+        if (source === 'slider') {
+            input.value = slider.value;
+        }
+        calculateSavings();
+    }
+
+    function calculateSavings() {
+        const monthly = document.getElementById('monthlyInput').value;
+        const slider = document.getElementById('monthlySlider');
+        slider.value = monthly; // Слайдерыг гараар бичсэн дүнтэй ижил болгох
+
+        const yearly = monthly * 12;
+        document.getElementById('yearlyResult').innerText = yearly.toLocaleString();
+
+        let icon = "🪙";
+        let text = "Бага багаар цуглуулаад байгаарай!";
+
+        if (yearly >= 50000 && yearly < 200000) {
+            icon = "📚";
+            text = "Та жилийн дараа маш олон шинэ ном авч чадна!";
+        } else if (yearly >= 200000 && yearly < 800000) {
+            icon = "🚲";
+            text = "Та шинэ унадаг дугуй авах боломжтой боллоо!";
+        } else if (yearly >= 800000 && yearly < 2000000) {
+            icon = "🎮";
+            text = "Та хүссэн тоглоомын консолоо (PlayStation г.м) авч чадна!";
+        } else if (yearly >= 2000000 && yearly < 5000000) {
+            icon = "💻";
+            text = "Танд хамгийн сүүлийн үеийн хүчирхэг Laptop авахад хангалттай мөнгө байна!";
+        } else if (yearly >= 5000000) {
+            icon = "✈️";
+            text = "Гайхалтай! Та гэр бүлээрээ аялалд явах боломжтой боллоо!";
+        }
+
+        document.getElementById('rewardIcon').innerText = icon;
+        document.getElementById('goalText').innerText = text;
+    }
+
+    // Анхны ачаалалтаар тооцоог хийх
+    calculateSavings();
+</script>
+
+</body>
+</html>
