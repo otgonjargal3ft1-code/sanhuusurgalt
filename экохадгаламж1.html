@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Эко Хадгаламж - Арвин хишиг булаг ХЗХ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f4f7f5;
+            --card-bg: #ffffff;
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --primary-light: #ecfdf5;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none; /* Текст санамсаргүй тэмдэглэгдэхээс сэргийлнэ */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.08);
+            width: 100%;
+            max-width: 480px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), #34d399);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .toggle-container {
+            display: flex;
+            background: var(--bg-color);
+            padding: 4px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .toggle-btn.active {
+            background: var(--card-bg);
+            color: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .label-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .amount-value {
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: transform 0.1s;
+            box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        .range-limits {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .result-card {
+            background: var(--primary-light);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 28px;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .result-row:last-child {
+            margin-bottom: 0;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(16, 185, 129, 0.3);
+        }
+
+        .result-label {
+            color: var(--text-muted);
+        }
+
+        .result-price {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .total-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .badge {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .rate-info {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">Арвин хишиг булаг ХЗХ</div>
+        <div class="title">Эко Хадгаламж 🌱</div>
+        <div class="subtitle">Ирээдүйгээ ногооруулж, хуримтлалаа өсгөе</div>
+    </div>
+
+    <div class="toggle-container">
+        <button class="toggle-btn active" id="mode-daily-btn">Өдрөөр хадгалах</button>
+        <button class="toggle-btn" id="mode-monthly-btn">Сараар хадгалах</button>
+    </div>
+
+    <div class="form-group">
+        <div class="label-wrapper">
+            <label id="amount-label">Өдөр бүр хадгалах дүн:</label>
+            <span class="amount-value" id="amount-display">500 ₮</span>
+        </div>
+        <input type="range" id="amount-slider" min="500" max="5000" step="1" value="500">
+        <div class="range-limits">
+            <span id="min-amt-label">500 ₮</span>
+            <span id="max-amt-label">5,000 ₮</span>
+        </div>
+    </div>
+
+    <div class="toggle-container" style="margin-bottom: 20px;">
+        <button class="toggle-btn active" id="period-m-btn">Сараар (1-12)</button>
+        <button class="toggle-btn" id="period-y-btn">Жилээр (1-5)</button>
+    </div>
+
+    <div class="form-group">
+        <div class="label-wrapper">
+            <label>Хадгалах хугацаа:</label>
+            <span class="amount-value" id="period-display">1 сар</span>
+        </div>
+        <input type="range" id="period-slider" min="1" max="12" step="1" value="1">
+        <div class="range-limits">
+            <span id="min-per-label">1 сар</span>
+            <span id="max-per-label">12 сар</span>
+        </div>
+    </div>
+
+    <div class="result-card">
+        <div class="result-row">
+            <span class="result-label">Таны үндсэн хадгаламж:</span>
+            <span class="result-price" id="principal-display">0 ₮</span>
+        </div>
+        <div class="result-row">
+            <span class="result-label">Бодогдсон хүүгийн орлого: <span class="badge" id="rate-badge">1.4%</span></span>
+            <span class="result-price" id="interest-display" style="color: #22c55e;">+0 ₮</span>
+        </div>
+        <div class="result-row">
+            <span class="result-label" style="font-weight: 600;">Нийт авах дүн:</span>
+            <span class="total-price" id="total-display">0 ₮</span>
+        </div>
+    </div>
+
+    <div class="rate-info">
+        * Сарын хүү: 1.4% | Жилийн хүү: 18% (Нийлмэл хүүгээр бодов)
+    </div>
+</div>
+
+<script>
+    // Төлөв хадгалах хувьсагчид
+    let mode = 'daily'; 
+    let periodType = 'months'; 
+
+    const amountSlider = document.getElementById('amount-slider');
+    const periodSlider = document.getElementById('period-slider');
+    
+    const dailyBtn = document.getElementById('mode-daily-btn');
+    const monthlyBtn = document.getElementById('mode-monthly-btn');
+    const perMonthBtn = document.getElementById('period-m-btn');
+    const perYearBtn = document.getElementById('period-y-btn');
+
+    // Эвентүүдийг найдвартай ажиллуулах хэсэг
+    dailyBtn.addEventListener('click', () => {
+        dailyBtn.classList.add('active');
+        monthlyBtn.classList.remove('active');
+        mode = 'daily';
+        
+        document.getElementById('amount-label').innerText = 'Өдөр бүр хадгалах дүн:';
+        amountSlider.min = 500;
+        amountSlider.max = 5000;
+        amountSlider.step = 1; // 500-5000 хооронд бүх дүн гарна
+        amountSlider.value = 500;
+        
+        document.getElementById('min-amt-label').innerText = '500 ₮';
+        document.getElementById('max-amt-label').innerText = '5,000 ₮';
+        calculate();
+    });
+
+    monthlyBtn.addEventListener('click', () => {
+        monthlyBtn.classList.add('active');
+        dailyBtn.classList.remove('active');
+        mode = 'monthly';
+        
+        document.getElementById('amount-label').innerText = 'Сар бүр хадгалах дүн:';
+        amountSlider.min = 30000;
+        amountSlider.max = 100000;
+        amountSlider.step = 1; // 30000-100000 хооронд бүх дүн гарна
+        amountSlider.value = 30000;
+        
+        document.getElementById('min-amt-label').innerText = '30,000 ₮';
+        document.getElementById('max-amt-label').innerText = '100,000 ₮';
+        calculate();
+    });
+
+    perMonthBtn.addEventListener('click', () => {
+        perMonthBtn.classList.add('active');
+        perYearBtn.classList.remove('active');
+        periodType = 'months';
+        
+        periodSlider.min = 1;
+        periodSlider.max = 12; // 1-12 сар болгов
+        periodSlider.value = 1;
+        
+        document.getElementById('min-per-label').innerText = '1 сар';
+        document.getElementById('max-per-label').innerText = '12 сар';
+        document.getElementById('rate-badge').innerText = '1.4%';
+        calculate();
+    });
+
+    perYearBtn.addEventListener('click', () => {
+        perYearBtn.classList.add('active');
+        perMonthBtn.classList.remove('active');
+        periodType = 'years';
+        
+        periodSlider.min = 1;
+        periodSlider.max = 5;
+        periodSlider.value = 1;
+        
+        document.getElementById('min-per-label').innerText = '1 жил';
+        document.getElementById('max-per-label').innerText = '5 жил';
+        document.getElementById('rate-badge').innerText = '18%';
+        calculate();
+    });
+
+    // Слайдер хөдлөхөд тооцоолох
+    amountSlider.addEventListener('input', calculate);
+    periodSlider.addEventListener('input', calculate);
+
+    // Үндсэн тооцоолуур
+    function calculate() {
+        const amount = parseInt(amountSlider.value);
+        const period = parseInt(periodSlider.value);
+        
+        document.getElementById('amount-display').innerText = amount.toLocaleString() + ' ₮';
+        document.getElementById('period-display').innerText = period + (periodType === 'months' ? ' сар' : ' жил');
+
+        let totalMonths = periodType === 'months' ? period : period * 12;
+        let monthlyDeposit = (mode === 'daily') ? (amount * 30) : amount;
+        let monthlyRate = (periodType === 'months') ? 0.014 : (0.18 / 12);
+
+        let principal = monthlyDeposit * totalMonths;
+        let totalValue = 0;
+
+        // Сар бүрийн нийлмэл хүү бодох
+        for (let i = 1; i <= totalMonths; i++) {
+            totalValue = (totalValue + monthlyDeposit) * (1 + monthlyRate);
+        }
+
+        let interest = totalValue - principal;
+
+        document.getElementById('principal-display').innerText = Math.round(principal).toLocaleString() + ' ₮';
+        document.getElementById('interest-display').innerText = '+' + Math.round(interest).toLocaleString() + ' ₮';
+        document.getElementById('total-display').innerText = Math.round(totalValue).toLocaleString() + ' ₮';
+    }
+
+    // Анхны ачаалалт
+    calculate();
+</script>
+
+</body>
+</html>
